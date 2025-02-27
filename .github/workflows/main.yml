@@ -19,7 +19,9 @@ jobs:
           python-version: '3.12'
 
       - name: Run Python script
-        run: python main.py
+        run: |
+          pip install .
+          python main.py
 
       - name: Commit and push new data
         run: |
