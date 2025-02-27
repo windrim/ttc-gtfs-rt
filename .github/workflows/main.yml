@@ -1,0 +1,30 @@
+name: Main
+
+on:
+  schedule:
+    - cron: '0 * * * *' 
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Run Python script
+        run: python main.py
+
+      - name: Commit and push new data
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add data.csv
+          git commit -m "Automated data update: $(date +'%Y-%m-%d %H:%M:%S')"
+          git push
